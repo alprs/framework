@@ -248,6 +248,36 @@ class ValidationValidatorTest extends PHPUnit_Framework_TestCase {
 
 		$v = new Validator($trans, array('f1' => 'foo', 'f2' => 'bar', 'f3' => 'baz'), $rules);
 		$this->assertTrue($v->passes());
+
+		$rules = array(
+			'f1' => 'required_without:f2|required_without:f3',
+			'f2' => 'required_without:f1|required_without:f3',
+			'f3' => 'required_without:f1|required_without:f2',
+		);
+
+		$v = new Validator($trans, array(), $rules);
+		$this->assertTrue($v->fails());
+
+		$v = new Validator($trans, array('f1' => 'foo'), $rules);
+		$this->assertTrue($v->fails());
+
+		$v = new Validator($trans, array('f2' => 'foo'), $rules);
+		$this->assertTrue($v->fails());
+
+		$v = new Validator($trans, array('f3' => 'foo'), $rules);
+		$this->assertTrue($v->fails());
+
+		$v = new Validator($trans, array('f1' => 'foo', 'f2' => 'bar'), $rules);
+		$this->assertTrue($v->passes());
+
+		$v = new Validator($trans, array('f1' => 'foo', 'f3' => 'bar'), $rules);
+		$this->assertTrue($v->passes());
+
+		$v = new Validator($trans, array('f2' => 'foo', 'f3' => 'bar'), $rules);
+		$this->assertTrue($v->passes());
+
+		$v = new Validator($trans, array('f1' => 'foo', 'f2' => 'bar', 'f3' => 'baz'), $rules);
+		$this->assertTrue($v->passes());
 	}
 
 
