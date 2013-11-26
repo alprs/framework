@@ -797,6 +797,30 @@ class DatabaseQueryBuilderTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	public function testMergeBindings()
+	{
+		$builder1 = $this->getBuilder();
+		$builder1->setBindings(array('foo'));
+		$builder2 = $this->getBuilder();
+		$builder2->setBindings(array('bar'));
+		$builder1->mergeBindings($builder2);
+
+		$this->assertEquals(array('foo', 'bar'), $builder1->getBindings());
+	}
+
+
+	public function testMergeBindingsInverse()
+	{
+		$builder1 = $this->getBuilder();
+		$builder1->setBindings(array('foo'));
+		$builder2 = $this->getBuilder();
+		$builder2->setBindings(array('bar'));
+		$builder1->mergeBindings($builder2, true);
+
+		$this->assertEquals(array('bar', 'foo'), $builder1->getBindings());
+	}
+
+
 	public function testProvidingNullOrFalseAsSecondParameterBuildsCorrectly()
 	{
 		$builder = $this->getBuilder();

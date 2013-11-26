@@ -1749,11 +1749,16 @@ class Builder {
 	 * Merge an array of bindings into our bindings.
 	 *
 	 * @param  \Illuminate\Database\Query\Builder  $query
+	 * @param  bool  $inverse
 	 * @return \Illuminate\Database\Query\Builder
 	 */
-	public function mergeBindings(Builder $query)
+	public function mergeBindings(Builder $query, $inverse = false)
 	{
-		$this->bindings = array_values(array_merge($this->bindings, $query->bindings));
+		if ($inverse === true) {
+			$this->bindings = array_values(array_merge($query->bindings, $this->bindings));
+		} else {
+			$this->bindings = array_values(array_merge($this->bindings, $query->bindings));
+		}
 
 		return $this;
 	}
