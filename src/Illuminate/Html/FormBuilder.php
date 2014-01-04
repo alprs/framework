@@ -93,6 +93,13 @@ class FormBuilder {
 	/**
 	 * Open up a new HTML form.
 	 *
+	 * Method defaults to POST, a 'method' index in the $options will override
+	 * this. The URL the form submits to can be defined with the 'url' option,
+	 * or you can provide a route name/action using the 'route' or 'action'
+	 * option. Set 'files' to true in the options to enable file upload. Any
+	 * array keys in $options that aren't mentioned above are added as HTML
+	 * attributes.
+	 *
 	 * @param  array   $options
 	 * @return string
 	 */
@@ -137,10 +144,10 @@ class FormBuilder {
 	}
 
 	/**
-	 * Create a new model based form builder.
+	 * Open a new form using model form binidng.
 	 *
-	 * @param  mixed  $model
-	 * @param  array  $options
+	 * @param  mixed  $model   Object or array containing data to populate the form.
+	 * @param  array  $options See FormBuilder::open
 	 * @return string
 	 */
 	public function model($model, array $options = array())
@@ -153,7 +160,7 @@ class FormBuilder {
 	/**
 	 * Set the model instance on the form builder.
 	 *
-	 * @param  mixed  $model
+	 * @param  mixed  $model Object or array containing data to populate the form.
 	 * @return void
 	 */
 	public function setModel($model)
@@ -221,8 +228,8 @@ class FormBuilder {
 	 *
 	 * @param  string  $type
 	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $options
+	 * @param  string  $value   Default value. Overrides the form model, but not old input from session. Leave as null for form model binding to take precedence.
+	 * @param  array   $options In some cases used to pass extra options to the input field, but in most cases these are converted to HTML attributes.
 	 * @return string
 	 */
 	public function input($type, $name, $value = null, $options = array())
@@ -253,8 +260,8 @@ class FormBuilder {
 	 * Create a text input field.
 	 *
 	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $options
+	 * @param  string  $value   See FormBuilder::input()
+	 * @param  array   $options See FormBuilder::input()
 	 * @return string
 	 */
 	public function text($name, $value = null, $options = array())
@@ -266,7 +273,7 @@ class FormBuilder {
 	 * Create a password input field.
 	 *
 	 * @param  string  $name
-	 * @param  array   $options
+	 * @param  array   $options See FormBuilder::input()
 	 * @return string
 	 */
 	public function password($name, $options = array())
@@ -278,8 +285,8 @@ class FormBuilder {
 	 * Create a hidden input field.
 	 *
 	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $options
+	 * @param  string  $value   See FormBuilder::input()
+	 * @param  array   $options See FormBuilder::input()
 	 * @return string
 	 */
 	public function hidden($name, $value = null, $options = array())
@@ -291,8 +298,8 @@ class FormBuilder {
 	 * Create an e-mail input field.
 	 *
 	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $options
+	 * @param  string  $value   See FormBuilder::input()
+	 * @param  array   $options See FormBuilder::input()
 	 * @return string
 	 */
 	public function email($name, $value = null, $options = array())
@@ -304,8 +311,8 @@ class FormBuilder {
 	 * Create a url input field.
 	 *
 	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $options
+	 * @param  string  $value   See FormBuilder::input()
+	 * @param  array   $options See FormBuilder::input()
 	 * @return string
 	 */
 	public function url($name, $value = null, $options = array())
@@ -317,7 +324,7 @@ class FormBuilder {
 	 * Create a file input field.
 	 *
 	 * @param  string  $name
-	 * @param  array   $options
+	 * @param  array   $options See FormBuilder::input()
 	 * @return string
 	 */
 	public function file($name, $options = array())
@@ -329,8 +336,8 @@ class FormBuilder {
 	 * Create a textarea input field.
 	 *
 	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $options
+	 * @param  string  $value   See FormBuilder::input()
+	 * @param  array   $options See FormBuilder::input()
 	 * @return string
 	 */
 	public function textarea($name, $value = null, $options = array())
@@ -396,9 +403,9 @@ class FormBuilder {
 	 * Create a select box field.
 	 *
 	 * @param  string  $name
-	 * @param  array   $list
-	 * @param  string  $selected
-	 * @param  array   $options
+	 * @param  array   $list     The array of options. The array keys are used as the value attribute of each option, while the array values are the values displayed in the drop-down menu.
+	 * @param  string  $selected The array key of the selected value.
+	 * @param  array   $options  See FormBuilder::input()
 	 * @return string
 	 */
 	public function select($name, $list = array(), $selected = null, $options = array())
@@ -562,7 +569,7 @@ class FormBuilder {
 	 * @param  string  $name
 	 * @param  mixed   $value
 	 * @param  bool    $checked
-	 * @param  array   $options
+	 * @param  array   $options See FormBuilder::input()
 	 * @return string
 	 */
 	public function checkbox($name, $value = 1, $checked = null, $options = array())
@@ -576,7 +583,7 @@ class FormBuilder {
 	 * @param  string  $name
 	 * @param  mixed   $value
 	 * @param  bool    $checked
-	 * @param  array   $options
+	 * @param  array   $options See FormBuilder::input()
 	 * @return string
 	 */
 	public function radio($name, $value = null, $checked = null, $options = array())
@@ -678,7 +685,7 @@ class FormBuilder {
 	 * Create a HTML reset input element.
 	 *
 	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param  array   $attributes HTML attributes
 	 * @return string
 	 */
 	public function reset($value, $attributes = array())
@@ -691,7 +698,7 @@ class FormBuilder {
 	 *
 	 * @param  string  $url
 	 * @param  string  $name
-	 * @param  array   $attributes
+	 * @param  array   $attributes See FormBuilder::input()
 	 * @return string
 	 */
 	public function image($url, $name = null, $attributes = array())
@@ -705,7 +712,7 @@ class FormBuilder {
 	 * Create a submit button element.
 	 *
 	 * @param  string  $value
-	 * @param  array   $options
+	 * @param  array   $options See FormBuilder::input()
 	 * @return string
 	 */
 	public function submit($value = null, $options = array())
