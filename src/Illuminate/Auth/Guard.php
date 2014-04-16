@@ -463,6 +463,16 @@ class Guard {
 	}
 
 	/**
+	 * Disable cookie-based authentication.
+	 *
+	 * @return void
+	 */
+	public function disableCookies()
+	{
+		$this->cookie = null;
+	}
+
+	/**
 	 * Get the event dispatcher instance.
 	 *
 	 * @return \Illuminate\Events\Dispatcher
