@@ -3,8 +3,8 @@
 use Closure;
 use Swift_Mailer;
 use Swift_Message;
-use Illuminate\Log\Writer;
 use Illuminate\View\Factory;
+use Psr\Log\LoggerInterface;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Queue\QueueManager;
 use Illuminate\Container\Container;
@@ -467,10 +467,10 @@ class Mailer {
 	/**
 	 * Set the log writer instance.
 	 *
-	 * @param  \Illuminate\Log\Writer  $logger
+	 * @param  \Psr\Log\LoggerInterface  $logger
 	 * @return $this
 	 */
-	public function setLogger(Writer $logger)
+	public function setLogger(LoggerInterface $logger)
 	{
 		$this->logger = $logger;
 
